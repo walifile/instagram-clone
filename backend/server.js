@@ -24,6 +24,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.use("/", require("./routes/authRoutes"));
+
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
