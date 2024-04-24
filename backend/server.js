@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", require("./routes/authRoutes"));
+app.use("/post", require("./routes/postRoutes"));
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
