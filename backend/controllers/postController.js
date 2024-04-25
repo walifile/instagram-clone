@@ -31,16 +31,16 @@ const getSubscribedPosts = async (req, res) => {
 
 // Controller function to create a new post
 const createPost = async (req, res) => {
-  const { title, body, pic } = req.body;
-  if (!title || !body || !pic) {
+  const { title, body, image } = req.body;
+  if (!title || !body || !image) {
     return res.status(422).json({ error: "Please add all the fields" });
   }
   req.user.password = undefined;
   const post = new Post({
     title,
     body,
-    photo: pic,
-    postedBy: req.user,
+    image: image.filename,
+    // postedBy: req.user,
   });
   try {
     const result = await post.save();
