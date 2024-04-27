@@ -35,12 +35,14 @@ const createPost = async (req, res) => {
   if (!title || !body || !image) {
     return res.status(422).json({ error: "Please add all the fields" });
   }
+  console.log(req);
+
   req.user.password = undefined;
   const post = new Post({
     title,
     body,
     image: image.filename,
-    // postedBy: req.user,
+    postedBy: req.user,
   });
   try {
     const result = await post.save();

@@ -55,29 +55,32 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { user, pwd } = req.body;
-  if (!user || !pwd)
+  const { name, password, email } = req.body;
+  console.log("req", req.body, email);
+  if (!email || !password)
     return res
       .status(400)
-      .json({ message: "Username and password are required." });
+      .json({ message: "Email and password are required." });
 
   // check for duplicate usernames in the db
-  const duplicate = await User.findOne({ username: user }).exec();
+
+  const duplicate = await User.findOne({ email: email }).exec();
   if (duplicate) return res.status(409).json({ message: "User Exist." });
 
   try {
     //encrypt the password
-    const hashedPwd = await bcrypt.hash(pwd, 10);
+    const hashedPwd = await bcrypt.hash(password, 10);
 
     //create and store the new user
     const result = await User.create({
-      username: user,
+      name: name,
       password: hashedPwd,
+      email: email,
     });
 
     console.log(result);
 
-    res.status(201).json({ success: `New user ${user} created!` });
+    res.status(201).json({ success: `New user ${name} created!` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
